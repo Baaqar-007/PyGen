@@ -41,4 +41,19 @@ ax.set_title("Kernel Density Estimate of asset path final value distribution")
 ax.set_ylim(0.0, 0.325)
 ax.set_xlabel('Final Values of Asset Paths')
 # plt.show()
-print(final_values.mean(),final_values.std()) # increasing the number of paths , makes mean and std approach their assumed values due to law of laege numbers
+# print(final_values.mean(),final_values.std()) # increasing the number of paths , makes mean and std approach their assumed values due to law of laege numbers
+
+mu_c, sigma_c = 0.1,0.1 # mean and standard deviation
+X = np.zeros((paths, points))
+for idx in range(points - 1):
+    real_idx = idx + 1
+    X[:, real_idx] = X[:, real_idx - 1] + mu_c * dt + sigma_c * np.sqrt(dt) * Z[:, idx] 
+    
+
+fig, ax = plt.subplots(1, 1, figsize=(12, 8))
+for path in range(paths):
+    ax.plot(t_axis, X[path, :])
+ax.set_title("Constant mean and standard deviation Brownian Motion sample paths")
+ax.set_xlabel("Time")
+ax.set_ylabel("Asset Value")
+plt.show()
