@@ -28,7 +28,17 @@ for idx in range(points-1):
 fig, ax = plt.subplots(1,1, figsize = (12,8))
 for path in range(paths):
     ax.plot(t_axis, W[path,:])
+    # this line plots the data from the path-th row of W against t_axis on the subplot ax
 ax.set_title("Standard Brownian Motion sample paths")
 ax.set_xlabel("Time")
 ax.set_ylabel("Asset Value") 
-plt.show()
+# plt.show()
+
+final_values = pd.DataFrame({'final_values': W[:, -1]}) # sample path ending values
+fig, ax = plt.subplots(1, 1, figsize=(12, 8))
+sns.kdeplot(data=final_values, x='final_values', fill=True, ax=ax)
+ax.set_title("Kernel Density Estimate of asset path final value distribution")
+ax.set_ylim(0.0, 0.325)
+ax.set_xlabel('Final Values of Asset Paths')
+# plt.show()
+print(final_values.mean(),final_values.std()) # increasing the number of paths , makes mean and std approach their assumed values due to law of laege numbers
